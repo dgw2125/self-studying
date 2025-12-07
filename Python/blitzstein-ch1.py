@@ -51,9 +51,8 @@ print(f"Array of random floats:\n{array_of_floats}")
 alternative_floats = np.random.rand(2, 3) # equivalent to random_sample(size=(2,3))
 print(f"Alternative array of random floats (using rand):\n{alternative_floats}")
 
-
-
 # SIMULATION - de Montmort's Matching Problem
+# using numpy for randomness and basic stats.
 
 # SIMULATION - Birthday Matching Problem
 
