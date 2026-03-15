@@ -1,0 +1,456 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue]{hyperref}
+\usepackage{array}
+\usepackage{microtype}
+
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\Bern}{\mathrm{Bern}}
+\newcommand{\Bin}{\mathrm{Bin}}
+\newcommand{\Geom}{\mathrm{Geom}}
+\newcommand{\NBin}{\mathrm{NBin}}
+\newcommand{\Pois}{\mathrm{Pois}}
+\newcommand{\Unif}{\mathrm{Unif}}
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+
+\title{Stat 110 Midterm Study Guide}
+\author{David Wang}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Scope and parameter conventions}
+This guide is designed for the \emph{first half} of Stat 110, through the midterm review. I am using the following parameterizations throughout:
+\begin{itemize}[leftmargin=1.5em]
+    \item $X \sim \Geom(p)$ means $X$ is the \textbf{trial number of the first success}, so its support is $\{1,2,3,\dots\}$.
+    \item $X \sim \NBin(r,p)$ means $X$ is the \textbf{trial number of the $r$th success}, so its support is $\{r,r+1,r+2,\dots\}$.
+    \item $X \sim \Normal(\mu,\sigma^2)$ means mean $\mu$ and variance $\sigma^2$.
+\end{itemize}
+
+\section{Core definitions and identities}
+
+\subsection{PMF, PDF, and CDF}
+For a discrete random variable $X$, the \textbf{PMF} is
+\[
+    p_X(x) = \Prob(X=x).
+\]
+For a continuous random variable $X$, the \textbf{PDF} $f_X(x)$ satisfies
+\[
+    \Prob(a \le X \le b) = \int_a^b f_X(x)\,dx,
+\]
+and for all $x$,
+\[
+    f_X(x) = F_X'(x) \quad \text{when } F_X \text{ is differentiable at } x.
+\]
+For any random variable, the \textbf{CDF} is
+\[
+    F_X(x) = \Prob(X \le x).
+\]
+Useful facts:
+\begin{itemize}[leftmargin=1.5em]
+    \item $F_X(x)$ is non-decreasing.
+    \item $\lim_{x\to -\infty}F_X(x)=0$ and $\lim_{x\to \infty}F_X(x)=1$.
+    \item For discrete $X$, the CDF is a step function.
+\end{itemize}
+
+\subsection{Expectation and variance}
+For discrete $X$,
+\[
+    \E[X] = \sum_x x\,\Prob(X=x).
+\]
+For continuous $X$,
+\[
+    \E[X] = \int_{-\infty}^{\infty} x f_X(x)\,dx.
+\]
+Variance is
+\[
+    \Var(X)=\E[(X-\E[X])^2]=\E[X^2]-(\E[X])^2.
+\]
+Standard deviation is $\sqrt{\Var(X)}$.
+
+\subsection{LOTUS}
+The \textbf{Law of the Unconscious Statistician (LOTUS)} lets you compute $\E[g(X)]$ \textit{without} first finding the distribution of $g(X)$. You do so using the PMF or PDF of random variable $X$.
+
+For discrete $X$,
+\[
+    \E[g(X)] = \sum_x g(x)\,\Prob(X=x).
+\]
+For continuous $X$,
+\[
+    \E[g(X)] = \int_{-\infty}^{\infty} g(x)f_X(x)\,dx.
+\]
+Special cases:
+\[
+    \E[X^2] = \sum_x x^2\Prob(X=x) \quad \text{or} \quad \int x^2 f_X(x)\,dx.
+\]
+
+\subsection{Linearity of expectation}
+For any random variables $X_1,\dots,X_n$ and constants $a_1,\dots,a_n$,
+\[
+    \E\left[\sum_{i=1}^n a_i X_i\right] = \sum_{i=1}^n a_i\E[X_i].
+\]
+\textbf{Important:} independence is \emph{not} required.
+
+In particular,
+\[
+    \E[aX+b] = a\E[X]+b.
+\]
+
+\subsection{Variance rules}
+\[
+    \Var(aX+b)=a^2\Var(X).
+\]
+If $X$ and $Y$ are independent, then
+\[
+    \Var(X+Y)=\Var(X)+\Var(Y).
+\]
+Without independence, \emph{do not} separate the variance like that.
+
+\subsection{Indicator random variables}
+For an event $A$, let $I_A = \1\{A\}$. Then
+\[
+    \E[I_A]=\Prob(A).
+\]
+This is one of the most useful tricks in the course.
+
+\subsection{Conditioning basics worth keeping on the sheet}
+Conditional probability:
+\[
+    \Prob(A\mid B)=\frac{\Prob(A\cap B)}{\Prob(B)} \qquad (\Prob(B)>0).
+\]
+Law of total probability, for disjoint events $B_1,\dots,B_n$ forming a partition:
+\[
+    \Prob(A)=\sum_{i=1}^n \Prob(A\mid B_i)\Prob(B_i).
+\]
+Bayes' rule:
+\[
+    \Prob(B_j\mid A)=\frac{\Prob(A\mid B_j)\Prob(B_j)}{\sum_{i=1}^n \Prob(A\mid B_i)\Prob(B_i)}.
+\]
+
+\subsection{Universality of the Uniform}
+If $X$ has a continuous CDF $F$, then
+\[
+    F(X) \sim \Unif(0,1).
+\]
+Conversely, if $U\sim \Unif(0,1)$ and $F$ is a continuous strictly increasing CDF, then
+\[
+    F^{-1}(U)
+\]
+has CDF $F$.
+
+\subsection{Location and scale}
+If $Y=aX+b$, then
+\[
+    \E[Y]=a\E[X]+b, \qquad \Var(Y)=a^2\Var(X).
+\]
+For a Normal random variable,
+\[
+    X\sim \Normal(\mu,\sigma^2)
+    \quad \Longrightarrow \quad
+    \frac{X-\mu}{\sigma} \sim \Normal(0,1).
+\]
+
+\section{Distribution summary}
+
+\subsection{Bernoulli distribution}
+Let $X\sim \Bern(p)$ with support $\{0,1\}$.
+
+\textbf{PMF}
+\[
+    \Prob(X=x)=p^x(1-p)^{1-x}, \qquad x\in\{0,1\}.
+\]
+Equivalent form:
+\[
+    \Prob(X=1)=p, \qquad \Prob(X=0)=1-p.
+\]
+
+\textbf{CDF}
+\[
+    F_X(x)=
+    \begin{cases}
+        0, & x<0,\\
+        1-p, & 0\le x<1,\\
+        1, & x\ge 1.
+    \end{cases}
+\]
+
+\textbf{Mean and variance}
+\[
+    \E[X]=p, \qquad \Var(X)=p(1-p).
+\]
+
+\subsection{Binomial distribution}
+Let $X\sim \Bin(n,p)$, the number of successes in $n$ independent Bernoulli$(p)$ trials.
+
+\textbf{Support}
+\[
+    x\in\{0,1,2,\dots,n\}.
+\]
+
+\textbf{PMF}
+\[
+    \Prob(X=x)=\binom{n}{x}p^x(1-p)^{n-x}.
+\]
+
+\textbf{CDF}
+\[
+    F_X(x)=\sum_{k=0}^{\floor{x}} \binom{n}{k}p^k(1-p)^{n-k}.
+\]
+(Interpret the sum as $0$ for $x<0$ and $1$ for $x\ge n$.)
+
+\textbf{Mean and variance}
+\[
+    \E[X]=np, \qquad \Var(X)=np(1-p).
+\]
+
+\subsection{Hypergeometric distribution}
+Let $X\sim \mathrm{Hypergeo}(N,K,n)$, where a population has size $N$, with $K$ successes, and we draw $n$ items \emph{without replacement}. Then $X$ is the number of successes drawn.
+
+\textbf{Support}
+\[
+    x\in \left\{\max(0,n-(N-K)),\dots,\min(n,K)\right\}.
+\]
+
+\textbf{PMF}
+\[
+    \Prob(X=x)=\frac{\binom{K}{x}\binom{N-K}{n-x}}{\binom{N}{n}}.
+\]
+
+\textbf{CDF}
+\[
+    F_X(x)=\sum_{k\le \floor{x}} \frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}},
+\]
+where the sum runs over allowable support values.
+
+\textbf{Mean and variance}
+\[
+    \E[X]=n\frac{K}{N},
+\]
+\[
+    \Var(X)=n\frac{K}{N}\left(1-\frac{K}{N}\right)\frac{N-n}{N-1}.
+\]
+
+\subsection{Discrete uniform distribution}
+A common version is $X\sim \Unif\{1,2,\dots,n\}$, meaning all values are equally likely.
+
+\textbf{PMF}
+\[
+    \Prob(X=x)=\frac{1}{n}, \qquad x\in\{1,2,\dots,n\}.
+\]
+
+\textbf{CDF}
+\[
+    F_X(x)=
+    \begin{cases}
+        0, & x<1,\\
+        \dfrac{\floor{x}}{n}, & 1\le x<n,\\
+        1, & x\ge n.
+    \end{cases}
+\]
+
+\textbf{Mean and variance}
+\[
+    \E[X]=\frac{n+1}{2}, \qquad \Var(X)=\frac{n^2-1}{12}.
+\]
+
+\subsection{Geometric distribution}
+Let $X\sim \Geom(p)$ be the trial number of the first success.
+
+\textbf{Support}
+\[
+    x\in\{1,2,3,\dots\}.
+\]
+
+\textbf{PMF}
+\[
+    \Prob(X=x)=(1-p)^{x-1}p.
+\]
+
+\textbf{CDF}
+\[
+    F_X(x)=
+    \begin{cases}
+        0, & x<1,\\
+        1-(1-p)^{\floor{x}}, & x\ge 1.
+    \end{cases}
+\]
+
+\textbf{Mean and variance}
+\[
+    \E[X]=\frac{1}{p}, \qquad \Var(X)=\frac{1-p}{p^2}.
+\]
+
+\textbf{Special fact: memoryless property}
+\[
+    \Prob(X>m+n\mid X>m)=\Prob(X>n).
+\]
+
+\subsection{Negative binomial distribution}
+Let $X\sim \NBin(r,p)$ be the trial number of the $r$th success.
+
+\textbf{Support}
+\[
+    x\in\{r,r+1,r+2,\dots\}.
+\]
+
+\textbf{PMF}
+\[
+    \Prob(X=x)=\binom{x-1}{r-1}p^r(1-p)^{x-r}.
+\]
+
+\textbf{CDF}
+\[
+    F_X(x)=\sum_{k=r}^{\floor{x}} \binom{k-1}{r-1}p^r(1-p)^{k-r}.
+\]
+
+\textbf{Mean and variance}
+\[
+    \E[X]=\frac{r}{p}, \qquad \Var(X)=\frac{r(1-p)}{p^2}.
+\]
+
+\textbf{Connection}
+When $r=1$, the negative binomial becomes the geometric distribution.
+
+\subsection{Poisson distribution}
+Let $X\sim \Pois(\lambda)$.
+
+\textbf{Support}
+\[
+    x\in\{0,1,2,3,\dots\}.
+\]
+
+\textbf{PMF}
+\[
+    \Prob(X=x)=e^{-\lambda}\frac{\lambda^x}{x!}.
+\]
+
+\textbf{CDF}
+\[
+    F_X(x)=\sum_{k=0}^{\floor{x}} e^{-\lambda}\frac{\lambda^k}{k!}.
+\]
+
+\textbf{Mean and variance}
+\[
+    \E[X]=\lambda, \qquad \Var(X)=\lambda.
+\]
+
+\textbf{Approximation idea}
+A Binomial$(n,p)$ random variable is often well approximated by Poisson$(\lambda=np)$ when $n$ is large and $p$ is small.
+
+\subsection{Continuous uniform distribution}
+Let $X\sim \Unif(a,b)$ with $a<b$.
+
+\textbf{PDF}
+\[
+    f_X(x)=
+    \begin{cases}
+        \dfrac{1}{b-a}, & a\le x\le b,\\
+        0, & \text{otherwise}.
+    \end{cases}
+\]
+
+\textbf{CDF}
+\[
+    F_X(x)=
+    \begin{cases}
+        0, & x<a,\\
+        \dfrac{x-a}{b-a}, & a\le x\le b,\\
+        1, & x>b.
+    \end{cases}
+\]
+
+\textbf{Mean and variance}
+\[
+    \E[X]=\frac{a+b}{2}, \qquad \Var(X)=\frac{(b-a)^2}{12}.
+\]
+
+\subsection{Normal distribution}
+Let $X\sim \Normal(\mu,\sigma^2)$ with $\sigma>0$.
+
+\textbf{PDF}
+\[
+    f_X(x)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).
+\]
+
+\textbf{CDF}
+There is no elementary closed form. It is written as
+\[
+    F_X(x)=\Phi\!\left(\frac{x-\mu}{\sigma}\right),
+\]
+where $\Phi$ is the standard Normal CDF.
+
+\textbf{Mean and variance}
+\[
+    \E[X]=\mu, \qquad \Var(X)=\sigma^2.
+\]
+
+\textbf{Standardization}
+\[
+    Z=\frac{X-\mu}{\sigma} \sim \Normal(0,1).
+\]
+
+\section{A few especially important problem-solving tools}
+
+\subsection{CDF method}
+For any random variable,
+\[
+    \Prob(a<X\le b)=F_X(b)-F_X(a)
+\]
+with the endpoint details adjusted appropriately for discrete variables.
+
+\subsection{Turning a hard variable into indicators}
+If $X$ counts how many of several events occur, write
+\[
+    X=I_1+I_2+\cdots+I_n.
+\]
+Then
+\[
+    \E[X]=\E[I_1]+\cdots+\E[I_n]=\Prob(A_1)+\cdots+\Prob(A_n).
+\]
+This is central for occupancy, matching, and coupon-collector-type arguments.
+
+\subsection{Symmetry}
+When a problem is symmetric across labels, positions, or people, look for a way to avoid direct counting and instead argue that certain probabilities or expectations must match by symmetry.
+
+\subsection{When to condition}
+If a direct computation looks messy, try conditioning on a strategically chosen event or random variable that breaks the problem into simpler pieces.
+
+\section{What you may want to add next}
+Depending on exactly which strategic practice and homework sets you have finished, you may also want a short section on:
+\begin{itemize}[leftmargin=1.5em]
+    \item counting formulas and sampling table,
+    \item independence of events and random variables,
+    \item the tail-sum formula for nonnegative integer-valued random variables,
+    \item Poisson approximation,
+    \item common stories for each distribution,
+    \item favorite tricks from your own solved strategic practice sets.
+\end{itemize}
+
+\section{One-page memory list}
+\begin{align*}
+\E[aX+b] &= a\E[X]+b,\\
+\Var(X) &= \E[X^2]-(\E[X])^2,\\
+\Var(aX+b) &= a^2\Var(X),\\
+\E[I_A] &= \Prob(A),\\
+\E[g(X)] &= \sum_x g(x)\Prob(X=x) \quad \text{or} \quad \int g(x)f_X(x)\,dx,\\
+F_X(x) &= \Prob(X\le x),\\
+X\sim \Normal(\mu,\sigma^2) &\Rightarrow \frac{X-\mu}{\sigma}\sim \Normal(0,1),\\
+X\sim \Geom(p) &\Rightarrow \E[X]=\frac{1}{p},\\
+X\sim \Pois(\lambda) &\Rightarrow \E[X]=\Var(X)=\lambda.
+\end{align*}
+
+\end{document}
