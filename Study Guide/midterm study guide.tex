@@ -93,7 +93,7 @@ For continuous $X$,
 \[
     \E[g(X)] = \int_{-\infty}^{\infty} g(x)f_X(x)\,dx.
 \]
-Special cases:
+This is useful for calculating variance:
 \[
     \E[X^2] = \sum_x x^2\Prob(X=x) \quad \text{or} \quad \int x^2 f_X(x)\,dx.
 \]
@@ -103,7 +103,7 @@ For any random variables $X_1,\dots,X_n$ and constants $a_1,\dots,a_n$,
 \[
     \E\left[\sum_{i=1}^n a_i X_i\right] = \sum_{i=1}^n a_i\E[X_i].
 \]
-\textbf{Important:} independence is \emph{not} required.
+\textbf{Important:} independence is \textit{not} required.
 
 In particular,
 \[
@@ -118,25 +118,28 @@ If $X$ and $Y$ are independent, then
 \[
     \Var(X+Y)=\Var(X)+\Var(Y).
 \]
-Without independence, \emph{do not} separate the variance like that.
+Without independence, \textit{do not} separate the variance like that.
 
 \subsection{Indicator random variables}
-For an event $A$, let $I_A = \1\{A\}$. Then
+For an event $A$, let $I_A = 1$ when the event occurs and $0$ otherwise. It follows that 
 \[
     \E[I_A]=\Prob(A).
 \]
-This is one of the most useful tricks in the course.
+This is one of the most useful tricks. 
 
 \subsection{Conditioning basics worth keeping on the sheet}
 Conditional probability:
 \[
     \Prob(A\mid B)=\frac{\Prob(A\cap B)}{\Prob(B)} \qquad (\Prob(B)>0).
 \]
-Law of total probability, for disjoint events $B_1,\dots,B_n$ forming a partition:
+
+\subsection{Law of total probability}
+For disjoint events $B_1,\dots,B_n$ forming a partition:
 \[
     \Prob(A)=\sum_{i=1}^n \Prob(A\mid B_i)\Prob(B_i).
 \]
-Bayes' rule:
+
+\subsection{Bayes' rule}
 \[
     \Prob(B_j\mid A)=\frac{\Prob(A\mid B_j)\Prob(B_j)}{\sum_{i=1}^n \Prob(A\mid B_i)\Prob(B_i)}.
 \]
@@ -164,16 +167,12 @@ For a Normal random variable,
     \frac{X-\mu}{\sigma} \sim \Normal(0,1).
 \]
 
-\section{Distribution summary}
+\section{Distributions studied so far}
 
 \subsection{Bernoulli distribution}
-Let $X\sim \Bern(p)$ with support $\{0,1\}$.
+Let $X\sim \Bern(p)$ with support $\{0,1\}$. A Bernoulli trial has a result $1$ and probability $p$ of success.
 
 \textbf{PMF}
-\[
-    \Prob(X=x)=p^x(1-p)^{1-x}, \qquad x\in\{0,1\}.
-\]
-Equivalent form:
 \[
     \Prob(X=1)=p, \qquad \Prob(X=0)=1-p.
 \]
@@ -194,7 +193,7 @@ Equivalent form:
 \]
 
 \subsection{Binomial distribution}
-Let $X\sim \Bin(n,p)$, the number of successes in $n$ independent Bernoulli$(p)$ trials.
+Let $X\sim \Bin(n,p)$, the number of successes in $n$ independent Bern$(p)$ trials.
 
 \textbf{Support}
 \[
@@ -218,7 +217,7 @@ Let $X\sim \Bin(n,p)$, the number of successes in $n$ independent Bernoulli$(p)$
 \]
 
 \subsection{Hypergeometric distribution}
-Let $X\sim \mathrm{Hypergeo}(N,K,n)$, where a population has size $N$, with $K$ successes, and we draw $n$ items \emph{without replacement}. Then $X$ is the number of successes drawn.
+Let $X\sim \mathrm{HGeom}(N,K,n)$, where a population has size $N$, with $K$ successes, and we draw $n$ items \emph{without replacement}. Then $X$ is the number of successes drawn.
 
 \textbf{Support}
 \[
@@ -349,6 +348,7 @@ Let $X\sim \Pois(\lambda)$.
 \]
 
 \textbf{Approximation idea}
+
 A Binomial$(n,p)$ random variable is often well approximated by Poisson$(\lambda=np)$ when $n$ is large and $p$ is small.
 
 \subsection{Continuous uniform distribution}
@@ -383,7 +383,7 @@ Let $X\sim \Normal(\mu,\sigma^2)$ with $\sigma>0$.
 
 \textbf{PDF}
 \[
-    f_X(x)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).
+    f_X(x)=\frac{1}{\sigma\sqrt{2\pi}}e^\frac{-(x-\mu)^2}{2\sigma^2}.
 \]
 
 \textbf{CDF}
@@ -429,18 +429,7 @@ When a problem is symmetric across labels, positions, or people, look for a way 
 \subsection{When to condition}
 If a direct computation looks messy, try conditioning on a strategically chosen event or random variable that breaks the problem into simpler pieces.
 
-\section{What you may want to add next}
-Depending on exactly which strategic practice and homework sets you have finished, you may also want a short section on:
-\begin{itemize}[leftmargin=1.5em]
-    \item counting formulas and sampling table,
-    \item independence of events and random variables,
-    \item the tail-sum formula for nonnegative integer-valued random variables,
-    \item Poisson approximation,
-    \item common stories for each distribution,
-    \item favorite tricks from your own solved strategic practice sets.
-\end{itemize}
-
-\section{One-page memory list}
+\section{Handy formulas}
 \begin{align*}
 \E[aX+b] &= a\E[X]+b,\\
 \Var(X) &= \E[X^2]-(\E[X])^2,\\
